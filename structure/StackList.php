@@ -2,6 +2,11 @@
 
 namespace structure;
 
+/**
+ * 堆栈 --链表实现
+ * Class StackList
+ * @package structure
+ */
 class StackList
 {
     private $data;
