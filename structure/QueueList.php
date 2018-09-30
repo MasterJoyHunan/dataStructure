@@ -48,7 +48,7 @@ class QueueList
     public function delete()
     {
         if ($this->isEmpty()) {
-            throw new \Exception('队列是空的');
+            return false;
         }
         $res = $this->front;
         if (empty($res->link)) {

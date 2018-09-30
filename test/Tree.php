@@ -22,21 +22,27 @@ class Tree
          *        5 7 8 6
          */
         //先 根左右
-//        $binaryTree->preOrderTraversal($binaryTree->root); //1257386
-//        echo "<hr>";
+        $binaryTree->preOrderTraversal($binaryTree->root); //1257386
+        echo "<hr>";
         //中 左根右
-//        $binaryTree->inOrderTraversal($binaryTree->root); //5271836
-//        echo "<hr>";
+        $binaryTree->inOrderTraversal($binaryTree->root); //5271836
+        echo "<hr>";
         //后 左右根
-//        $binaryTree->postOrderTraversal($binaryTree->root); //5728631
-//        echo "<hr>";
+        $binaryTree->postOrderTraversal($binaryTree->root); //5728631
+        echo "<hr>";
         //先, 堆栈
-//        $binaryTree->preOrderTraversalStack($binaryTree->root);
-//        echo "<hr>";
+        $binaryTree->preOrderTraversalStack($binaryTree->root);
+        echo "<hr>";
         //中, 堆栈
         $binaryTree->inOrderTraversalStack($binaryTree->root);
         echo "<hr>";
         //后, 堆栈
-//        $binaryTree->postOrderTraversalStack($binaryTree->root);
+        $binaryTree->postOrderTraversalStack($binaryTree->root);
+        echo "<hr>";
+        //层序遍历, 队列
+        $binaryTree->levelTraversalQueue($binaryTree->root);
+        echo '<hr>';
+        $binaryTree->levelTraversalStack($binaryTree->root);
+        echo "<hr>";
     }
 }

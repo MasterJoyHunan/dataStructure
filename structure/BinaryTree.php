@@ -131,7 +131,6 @@ class BinaryTree
         while ($current || !$stack->isEmpty()) {
             while ($current) {
                 $stack->push(new Node1($current));
-                dump($stack);
                 $current = $current->left;
             }
             if (!$stack->isEmpty()) {
@@ -141,7 +140,6 @@ class BinaryTree
             }
         }
     }
-
 
 
     /**
@@ -161,14 +159,57 @@ class BinaryTree
 
         while ($current || !$stack->isEmpty()) {
             while ($current) {
+                $current->visit = 1; //第一次碰到个节点
                 $stack->push(new Node1($current));
                 $current = $current->left;
             }
             if (!$stack->isEmpty()) {
-                $current = $stack->pop();
-                echo $current->data;
-                $current = $current->right;
+                $current = $stack->getTop();
+                if ($current->visit == 2) { //第三次就直接输出
+                    $current = $stack->pop();
+                    echo $current->data;
+                    $current = null;
+                } else if ($current->visit == 1) {
+                    $current->visit = 2; //第二次碰到该节点
+                    $current = $current->right;
+                }
+            }
+        }
+    }
 
+
+    /**
+     * 层次遍历 从上到下 从左到右
+     */
+    public function levelTraversalQueue($list)
+    {
+        $queue = new QueueList();
+        $queue->add(new Node1($list));
+        while ($current = $queue->delete()) {
+            echo $current->data;
+            if ($current->left) {
+                $queue->add(new Node1($current->left));
+            }
+            if ($current->right) {
+                $queue->add(new Node1($current->right));
+            }
+        }
+    }
+
+    /**
+     * 层次遍历 从上到下 从左到右
+     */
+    public function levelTraversalStack($list)
+    {
+        $stack = new StackList();
+        $stack->push(new Node1($list));
+        while ($current = $stack->pop()) {
+            echo $current->data;
+            if ($current->left) {
+                $stack->push(new Node1($current->left));
+            }
+            if ($current->right) {
+                $stack->push(new Node1($current->right));
             }
         }
     }
