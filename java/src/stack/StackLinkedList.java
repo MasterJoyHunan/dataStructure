@@ -1,20 +1,20 @@
 package stack;
 
-import base.ArrayList;
+import base.LinkedList;
 
 /**
- * 堆栈 -- 动态数组实现
+ * 堆栈 -- 双向链表实现
  *
  * @author joy
- * @time 2019/09/11 19:22
+ * @time 2019/09/12 09:21
  */
-public class StackArray<E> implements Stack<E> {
+public class StackLinkedList<E> implements Stack<E> {
 
-    private ArrayList<E> list = new ArrayList<>();
+    private LinkedList<E> list = new LinkedList<>();
 
     /**
      * 加入堆栈
-     * -- 插入元素到数组最后索引 O(1)
+     * -- 插入元素到链表头 O(1)
      *
      * @param data E
      */
@@ -25,24 +25,24 @@ public class StackArray<E> implements Stack<E> {
 
     /**
      * 弹出堆栈
-     * -- 删除数组最后索引的元素 O(1)
+     * -- 删除链表头的元素 O(1)
      *
      * @return E
      */
     @Override
     public E pop() {
-        return list.removeByIndex(list.getSize() - 1);
+        return list.remove();
     }
 
     /**
      * 获取栈顶元素
-     * -- 根据索引查找元素 O(1)
+     * -- 查找链表头的元素 O(1)
      *
      * @return E
      */
     @Override
     public E peek() {
-        return list.getValue(list.getSize() - 1);
+        return list.getHead();
     }
 
     /**
@@ -62,7 +62,7 @@ public class StackArray<E> implements Stack<E> {
      */
     @Override
     public int getSize() {
-        return list.getSize();
+        return 0;
     }
 
     @Override
@@ -70,15 +70,16 @@ public class StackArray<E> implements Stack<E> {
         return list.toString();
     }
 
-    public static void main(String[] args) {
-        StackArray<Integer> stack = new StackArray<>();
-        System.out.println(stack);
 
+    public static void main(String[] args) {
+        StackLinkedList<Integer> stack = new StackLinkedList<>();
         for (int i = 0; i < 10; i++) {
             stack.push(i);
             System.out.println(stack);
         }
+
         for (int i = 0; i < 10; i++) {
+            System.out.println(stack.peek());
             stack.pop();
             System.out.println(stack);
         }

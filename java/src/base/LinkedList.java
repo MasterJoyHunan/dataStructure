@@ -60,12 +60,11 @@ public class LinkedList<E> implements Structure<E> {
     }
 
     /**
-     * 删除
+     * 根据传过来的数据删除节点 O(n)
      *
      * @param data
      * @return
      */
-    @Override
     public E remove(E data) {
         if (data == null) {
             throw new IllegalArgumentException("非法参数");
@@ -85,7 +84,8 @@ public class LinkedList<E> implements Structure<E> {
      *
      * @return E
      */
-    public E removeHead() {
+    @Override
+    public E remove() {
         return remove(dummyHeader.next);
     }
 
@@ -127,23 +127,30 @@ public class LinkedList<E> implements Structure<E> {
         return size == 0;
     }
 
-    /**
-     * 获取头结点 时间复杂度O(1)
-     *
-     * @return E
-     */
-    public E getHead() {
-        return dummyHeader.next.data;
+    @Override
+    public boolean container(E data) {
+        if (data == null) {
+            throw new IllegalArgumentException("非法参数");
+        }
+        Node current = dummyHeader.next;
+        while (current != null && current != dummyHeader) {
+            if (data.equals(current.data)) {
+                return true;
+            }
+            current = current.next;
+        }
+        return false;
     }
 
-    /**
-     * 获取尾节点 时间复杂度O(1)
-     *
-     * @return E
-     */
-    public E getTail() {
-        return dummyHeader.pre.data;
+    public E getHead() {
+        return dummyHeader.next == null ? null : dummyHeader.next.data;
+
     }
+
+    public E getTail() {
+        return dummyHeader.next == null ? null : dummyHeader.pre.data;
+    }
+
 
     @Override
     public String toString() {
@@ -173,7 +180,7 @@ public class LinkedList<E> implements Structure<E> {
 
         System.out.println(list);
         for (int i = 0; i < 10; i++) {
-            list.removeHead();
+            list.remove();
             System.out.println(list);
         }
         System.out.println(list);

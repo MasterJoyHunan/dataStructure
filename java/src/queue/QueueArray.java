@@ -1,23 +1,20 @@
-package stack;
+package queue;
 
 import base.ArrayList;
 
 /**
- * 数组队列
+ * 队列 -- 数组实现
  *
  * @author joy
  * @time 2019/09/11 19:22
  */
 public class QueueArray<E> implements Queue<E> {
-    private ArrayList<E> queue;
 
-    public QueueArray() {
-        this.queue = new ArrayList<>();
-    }
+    private ArrayList<E> queue = new ArrayList<>();
 
     /**
      * 入队
-     * 加入队头 O(n)
+     * -- 加入数组队头 O(n)
      *
      * @param data
      */
@@ -28,7 +25,7 @@ public class QueueArray<E> implements Queue<E> {
 
     /**
      * 出队
-     * 加入队尾 O(1)
+     * -- 删除数组尾元素 O(1)
      *
      * @return
      */
@@ -37,19 +34,42 @@ public class QueueArray<E> implements Queue<E> {
         return queue.removeByIndex(queue.getSize() - 1);
     }
 
+    /**
+     * 获取下一个出队的元素
+     * -- 获取数组尾的元素 O(1)
+     *
+     * @return E
+     */
+    @Override
+    public E getNext() {
+        return queue.getValue(queue.getSize() - 1);
+    }
+
+    /**
+     * 当前队列容量
+     *
+     * @return int
+     */
+    @Override
+    public int getSize() {
+        return queue.getSize();
+    }
+
+    /**
+     * 队列是否为空
+     *
+     * @return boolean
+     */
     @Override
     public boolean isEmpty() {
         return queue.isEmpty();
-    }
-
-    public E getNext() {
-        return queue.getValue(queue.getSize() - 1);
     }
 
     @Override
     public String toString() {
         return queue.toString();
     }
+
 
     public static void main(String[] args) {
         QueueArray<Integer> queue = new QueueArray<>();

@@ -1,16 +1,16 @@
 package stack;
 
-import base.ArrayList;
+import base.LoopArrayList;
 
 /**
- * 堆栈 -- 动态数组实现
+ * 堆栈 -- 循环数组实现
  *
  * @author joy
- * @time 2019/09/11 19:22
+ * @time 2019/09/12 08:40
  */
-public class StackArray<E> implements Stack<E> {
+public class StackLoopArray<E> implements Stack<E> {
 
-    private ArrayList<E> list = new ArrayList<>();
+    private LoopArrayList<E> list = new LoopArrayList<>();
 
     /**
      * 加入堆栈
@@ -31,7 +31,7 @@ public class StackArray<E> implements Stack<E> {
      */
     @Override
     public E pop() {
-        return list.removeByIndex(list.getSize() - 1);
+        return list.removeLast();
     }
 
     /**
@@ -42,7 +42,7 @@ public class StackArray<E> implements Stack<E> {
      */
     @Override
     public E peek() {
-        return list.getValue(list.getSize() - 1);
+        return list.getLast();
     }
 
     /**
@@ -71,16 +71,16 @@ public class StackArray<E> implements Stack<E> {
     }
 
     public static void main(String[] args) {
-        StackArray<Integer> stack = new StackArray<>();
-        System.out.println(stack);
+        StackLoopArray<Integer> list = new StackLoopArray<>();
+        for (int i = 0; i < 10; i++) {
+            list.push(i);
+            System.out.println(list);
+        }
 
         for (int i = 0; i < 10; i++) {
-            stack.push(i);
-            System.out.println(stack);
-        }
-        for (int i = 0; i < 10; i++) {
-            stack.pop();
-            System.out.println(stack);
+            System.out.println(list.peek());
+            list.pop();
+            System.out.println(list);
         }
     }
 }

@@ -6,7 +6,7 @@ package base;
  * @author joy
  * @time 2019/09/09 13:27
  */
-public class Linked<E> {
+public class Linked<E> implements Structure<E> {
 
     /**
      * 内部类 内部节点
@@ -37,6 +37,10 @@ public class Linked<E> {
         this.dummyHeader = new Node();
     }
 
+
+
+
+
     /**
      * 加入尾节点
      *
@@ -56,7 +60,8 @@ public class Linked<E> {
      *
      * @param data
      */
-    public void addToHead(E data) {
+    @Override
+    public void add(E data) {
         dummyHeader.next = new Node(data, dummyHeader.next);
         size++;
     }
@@ -66,7 +71,8 @@ public class Linked<E> {
      *
      * @return
      */
-    public E removeHead() {
+    @Override
+    public E remove() {
         if (size == 0) {
             throw new IllegalArgumentException("空链表");
         }
@@ -94,6 +100,54 @@ public class Linked<E> {
         prev.next = current.next;
         size--;
         return current.data;
+    }
+
+
+    public E getHead() {
+        return dummyHeader.next == null ? null : dummyHeader.next.data;
+    }
+
+    public E getTail() {
+        Node current = dummyHeader;
+        while (current.next != null) {
+            current = current.next;
+        }
+        return current.data;
+    }
+    /**
+     * 判断容器是否为空
+     *
+     * @return
+     */
+    @Override
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    /**
+     * 判断元素是否包含在容器内
+     *
+     * @param data
+     * @return boolean
+     */
+    @Override
+    public boolean container(E data) {
+        if (data == null) {
+            throw new IllegalArgumentException("参数错误");
+        }
+        Node current = dummyHeader.next;
+        while (current != null) {
+            if (data.equals(current.data)) {
+                return true;
+            }
+            current = current.next;
+        }
+        return false;
+    }
+
+    @Override
+    public int getSize() {
+        return size;
     }
 
     @Override

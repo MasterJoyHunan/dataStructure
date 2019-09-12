@@ -1,22 +1,22 @@
 package stack;
 
-import base.ArrayList;
+import base.Linked;
 
 /**
- * 堆栈 -- 动态数组实现
+ * 堆栈 --单向链表实现
  *
  * @author joy
- * @time 2019/09/11 19:22
+ * @time 2019/09/12 08:27
  */
-public class StackArray<E> implements Stack<E> {
+public class StackLinked<E> implements Stack<E> {
 
-    private ArrayList<E> list = new ArrayList<>();
+    private Linked<E> list = new Linked<>();
 
     /**
      * 加入堆栈
-     * -- 插入元素到数组最后索引 O(1)
+     * -- 加入到单向链表的头节点 O(1)
      *
-     * @param data E
+     * @param data
      */
     @Override
     public void push(E data) {
@@ -25,34 +25,24 @@ public class StackArray<E> implements Stack<E> {
 
     /**
      * 弹出堆栈
-     * -- 删除数组最后索引的元素 O(1)
+     * -- 删除单向链表头节点 O(1)
      *
-     * @return E
+     * @return
      */
     @Override
     public E pop() {
-        return list.removeByIndex(list.getSize() - 1);
+        return list.remove();
     }
 
     /**
      * 获取栈顶元素
-     * -- 根据索引查找元素 O(1)
+     * -- 获取链表头结点 O(1)
      *
-     * @return E
+     * @return
      */
     @Override
     public E peek() {
-        return list.getValue(list.getSize() - 1);
-    }
-
-    /**
-     * 判断堆栈是否为空
-     *
-     * @return boolean
-     */
-    @Override
-    public boolean isEmpty() {
-        return list.isEmpty();
+        return list.getHead();
     }
 
     /**
@@ -66,19 +56,25 @@ public class StackArray<E> implements Stack<E> {
     }
 
     @Override
+    public boolean isEmpty() {
+        return list.getSize() == 0;
+    }
+
+    @Override
     public String toString() {
         return list.toString();
     }
 
-    public static void main(String[] args) {
-        StackArray<Integer> stack = new StackArray<>();
-        System.out.println(stack);
 
+    public static void main(String[] args) {
+        StackLinked<Integer> stack = new StackLinked<>();
         for (int i = 0; i < 10; i++) {
             stack.push(i);
             System.out.println(stack);
         }
+
         for (int i = 0; i < 10; i++) {
+            System.out.println(stack.peek());
             stack.pop();
             System.out.println(stack);
         }

@@ -47,7 +47,12 @@ public class BinarySearchTree<E extends Comparable<E>> implements Structure<E> {
         return node;
     }
 
-    @Override
+    /**
+     * 删除
+     *
+     * @param data
+     * @return
+     */
     public E remove(E data) {
         if (root == null) {
             throw new IllegalArgumentException("数据为空");
@@ -55,6 +60,17 @@ public class BinarySearchTree<E extends Comparable<E>> implements Structure<E> {
         root = remove(root, data);
         return data;
     }
+
+    /**
+     * 二叉树无法实现默认删除谁
+     *
+     * @return
+     */
+    @Override
+    public E remove() {
+        return null;
+    }
+
 
     /**
      * 要删除, 先查找,查找到对应的节点,判断左右子树是否为空,
@@ -93,6 +109,30 @@ public class BinarySearchTree<E extends Comparable<E>> implements Structure<E> {
     @Override
     public boolean isEmpty() {
         return size == 0;
+    }
+
+    /**
+     * 判断元素是否包含在容器内
+     *
+     * @param data
+     * @return boolean
+     */
+    @Override
+    public boolean container(E data) {
+        return container(root, data);
+    }
+
+
+    private boolean container(Node node, E data) {
+        if (node == null) {
+            return false;
+        }
+        if (data.compareTo(node.data) > 0) {
+            return container(node.right, data);
+        } else if (data.compareTo(node.data) < 0) {
+            return container(node.left, data);
+        }
+        return true;
     }
 
     /**

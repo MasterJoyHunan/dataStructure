@@ -27,8 +27,10 @@ public class ArrayList<E> implements Structure<E> {
         this.size = 0;
     }
 
+
     /**
-     * 添加数据
+     * 添加
+     * -- 加入数组的尾
      *
      * @param value
      */
@@ -43,10 +45,23 @@ public class ArrayList<E> implements Structure<E> {
         addByIndex(size, value);
     }
 
+
+    /**
+     * 加入到数组头部
+     *
+     * @param value
+     */
     public void addFirst(E value) {
         addByIndex(0, value);
     }
 
+
+    /**
+     * 加入指定的位置
+     *
+     * @param index
+     * @param value
+     */
     private void addByIndex(int index, E value) {
         for (int i = size; i > index; i--) {
             data[i] = data[i - 1];
@@ -55,9 +70,16 @@ public class ArrayList<E> implements Structure<E> {
         size++;
     }
 
+
+    /**
+     * 根据值获取对应的索引
+     *
+     * @param value
+     * @return
+     */
     public int getIndex(E value) {
         for (int i = 0; i < size; i++) {
-            if (data[i] == value) {
+            if (value.equals(data[i])) {
                 return i;
             }
         }
@@ -71,12 +93,26 @@ public class ArrayList<E> implements Structure<E> {
 
 
     /**
-     * 删除数据
+     * 默认删除
+     * -- 删除数组最后一个元素
+     *
+     * @return E
+     */
+    @Override
+    public E remove() {
+        if (size == 0) {
+            return null;
+        }
+        return removeByIndex(size - 1);
+    }
+
+
+    /**
+     * 根据值来删除数据
      *
      * @param value
      * @return
      */
-    @Override
     public E remove(E value) {
         if (value == null) {
             throw new IllegalArgumentException("非法参数");
@@ -89,6 +125,12 @@ public class ArrayList<E> implements Structure<E> {
         throw new IllegalArgumentException("不存在该数据");
     }
 
+
+    /**
+     * 根据索引
+     * @param index
+     * @return
+     */
     public E removeByIndex(int index) {
         E temp = data[index];
         for (int i = index; i < size; i++) {
@@ -107,12 +149,13 @@ public class ArrayList<E> implements Structure<E> {
     }
 
     @Override
-    public int getSize() {
-        return size;
+    public boolean container(E data) {
+        return getIndex(data) != -1;
     }
 
-    public int getCapacity() {
-        return capacity;
+    @Override
+    public int getSize() {
+        return size;
     }
 
     /**
@@ -136,7 +179,7 @@ public class ArrayList<E> implements Structure<E> {
         for (int i = 0; i < size; i++) {
             stringBuffer.append(" [" + i + "]" + "=>" + data[i] + ",");
         }
-        stringBuffer.append(" size : " + getSize() + " capacity : " + getCapacity());
+        stringBuffer.append(" size : " + getSize() + " capacity : " + capacity);
         return stringBuffer.toString();
     }
 
