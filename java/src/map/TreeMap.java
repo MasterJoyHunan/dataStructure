@@ -2,7 +2,7 @@ package map;
 
 /**
  * @author joy
- * @time 2019/09/12 15:20
+ * @date 2019/09/12 15:20
  */
 public class TreeMap<K extends Comparable<K>, V> implements Map<K, V> {
 
@@ -12,11 +12,14 @@ public class TreeMap<K extends Comparable<K>, V> implements Map<K, V> {
         private Node left;
         private Node right;
 
-        public Node(K key, V value) {
+        private Node(K key, V value) {
             this.key = key;
             this.value = value;
         }
     }
+
+    private Node root;
+    private int  size;
 
     /**
      * 插入/修改 数据
@@ -26,18 +29,59 @@ public class TreeMap<K extends Comparable<K>, V> implements Map<K, V> {
      */
     @Override
     public void put(K key, V value) {
+        root = put(key, value, root);
+    }
 
+    private Node put(K key, V value, Node node) {
+        if (node == null) {
+            size++;
+            return new Node(key, value);
+        }
+        if (key.compareTo(node.key) > 0) {
+            node.right = put(key, value, node.right);
+        } else if (key.compareTo(node.key) < 0) {
+            node.left = put(key, value, node.left);
+        } else {
+            node.value = value;
+        }
+        return node;
     }
 
     /**
      * 根据Key 删除某条数据
      *
-     * @param data
+     * @param key
      * @return
      */
     @Override
-    public V remove(K data) {
-        return null;
+    public V remove(K key) {
+        V v = get(key);
+        if (v == null) {
+            return null;
+        }
+        root = remove(root, key);
+        return v;
+    }
+
+    private Node remove(Node node, K key) {
+        if (node == null) {
+            return null;
+        }
+        if (key.compareTo(node.key) > 0) {
+            node.right = remove(node.right, key);
+        } else if (key.compareTo(node.key) < 0) {
+            node.left = remove(node.left, key);
+        } else {
+            if (node.left != null && node.right != null) {
+                Node temp = max(node.left);
+                node.key = temp.key;
+                node.left = remove(node.left, temp.key);
+            } else {
+                node = node.left != null ? node.left : node.right;
+                size--;
+            }
+        }
+        return node;
     }
 
     /**
@@ -48,8 +92,23 @@ public class TreeMap<K extends Comparable<K>, V> implements Map<K, V> {
      */
     @Override
     public V get(K key) {
-        return null;
+        Node node = get(key, root);
+        return node == null ? null : node.value;
     }
+
+    private Node get(K key, Node node) {
+        if (node == null) {
+            return null;
+        }
+        if (key.compareTo(node.key) > 0) {
+            return get(key, node.right);
+        } else if (key.compareTo(node.key) < 0) {
+            return get(key, node.left);
+        } else {
+            return node;
+        }
+    }
+
 
     /**
      * 判断Key是否在当前容器里面
@@ -59,8 +118,9 @@ public class TreeMap<K extends Comparable<K>, V> implements Map<K, V> {
      */
     @Override
     public boolean contains(K key) {
-        return false;
+        return get(key, root) != null;
     }
+
 
     /**
      * 判断容器是否为空
@@ -69,7 +129,7 @@ public class TreeMap<K extends Comparable<K>, V> implements Map<K, V> {
      */
     @Override
     public boolean isEmpty() {
-        return false;
+        return size == 0;
     }
 
     /**
@@ -79,6 +139,60 @@ public class TreeMap<K extends Comparable<K>, V> implements Map<K, V> {
      */
     @Override
     public int getSize() {
-        return 0;
+        return size;
+    }
+
+
+    /**
+     * 获取最大值
+     *
+     * @return
+     */
+    public V max() {
+        if (root == null) {
+            throw new IllegalArgumentException("数据为空");
+        }
+        return max(root).value;
+    }
+
+    private Node max(Node node) {
+        if (node.right == null) {
+            return node;
+        }
+        return max(node.right);
+    }
+
+    /**
+     * 获取最小值
+     *
+     * @return
+     */
+    public V min() {
+        if (root == null) {
+            throw new IllegalArgumentException("数据为空");
+        }
+        return min(root).value;
+    }
+
+    private Node min(Node node) {
+        if (node.left == null) {
+            return node;
+        }
+        return min(node.left);
+    }
+
+
+    public static void main(String[] args) {
+        TreeMap<Integer, String> tree = new TreeMap<>();
+        tree.put(2, "8831q64");
+        tree.put(6, "dsg");
+        tree.put(4, "ha");
+        tree.put(13, "asd");
+        tree.put(1, "88fg64");
+
+        tree.remove(2);
+        tree.remove(1);
+        System.out.println(tree);
     }
 }
+
