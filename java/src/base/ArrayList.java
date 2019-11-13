@@ -86,8 +86,16 @@ public class ArrayList<E> implements Structure<E> {
         return -1;
     }
 
-
+    /**
+     * 根据索引获得对应的值
+     *
+     * @param index
+     * @return
+     */
     public E getValue(int index) {
+        if (index < 0 || index >= size) {
+            throw new IllegalArgumentException("数组下标越界");
+        }
         return data[index];
     }
 
@@ -128,6 +136,7 @@ public class ArrayList<E> implements Structure<E> {
 
     /**
      * 根据索引
+     *
      * @param index
      * @return
      */
@@ -141,6 +150,21 @@ public class ArrayList<E> implements Structure<E> {
             resize(capacity / 2);
         }
         return temp;
+    }
+
+    /**
+     * 交换两个值
+     *
+     * @param i
+     * @param j
+     */
+    public void swap(int i, int j) {
+        if (i < 0 || i >= size || j < 0 || j >= size) {
+            throw new IllegalArgumentException("下标错误");
+        }
+        E temp = data[i];
+        data[i] = data[j];
+        data[j] = temp;
     }
 
     @Override
