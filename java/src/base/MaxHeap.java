@@ -1,6 +1,4 @@
-package heap;
-
-import base.ArrayList;
+package base;
 
 import java.util.Random;
 
@@ -10,16 +8,34 @@ import java.util.Random;
  * @author joy
  * @time 2019/11/13 11:56
  */
-public class ArrayMaxHeap<E extends Comparable<E>> {
+public class MaxHeap<E extends Comparable<E>> {
 
     private ArrayList<E> data;
 
-    public ArrayMaxHeap() {
+    public MaxHeap() {
         this.data = new ArrayList<>();
     }
 
-    public ArrayMaxHeap(int capacity) {
+
+    public MaxHeap(int capacity) {
         data = new ArrayList<>(capacity);
+    }
+
+    /**
+     * 数组转化为最大堆
+     * @param arr
+     */
+    public MaxHeap(E[] arr) {
+        if (arr == null) {
+            throw new IllegalArgumentException("参数不能为 null");
+        }
+        data = new ArrayList<>(arr.length);
+        for (E e : arr) {
+            data.add(e);
+        }
+        for (int i = getParent(data.getSize() - 1); i >=0 ; i--) {
+            siftDown(i);
+        }
     }
 
     /**
@@ -115,6 +131,16 @@ public class ArrayMaxHeap<E extends Comparable<E>> {
         return res;
     }
 
+
+    public boolean isEmpty() {
+        return data.isEmpty();
+    }
+
+
+    public int getSize() {
+        return data.getSize();
+    }
+
     /**
      * 数据下沉
      *
@@ -137,22 +163,40 @@ public class ArrayMaxHeap<E extends Comparable<E>> {
         }
     }
 
+    /**
+     * 替换堆中最大的元素
+     *
+     * @param e
+     * @return
+     */
+    public E replace(E e) {
+        E top = getTop();
+        data.addByIndex(0, e);
+        siftDown(0);
+        return top;
+    }
+
     @Override
     public String toString() {
         StringBuffer str = new StringBuffer();
         for (int i = 0; i < data.getSize(); i++) {
-            str.append( i + " => " + data.getValue(i) + "\n");
+            str.append(i + " => " + data.getValue(i) + "\n");
         }
         return str.toString();
 
     }
 
     public static void main(String[] args) {
-        ArrayMaxHeap<Integer> heap = new ArrayMaxHeap<>();
-        for (int i = 0; i < 100 ; i++) {
+        MaxHeap<Integer> heap = new MaxHeap<>();
+        for (int i = 0; i < 100; i++) {
             heap.add(new Random().nextInt());
         }
         System.out.println(heap);
+
+        Integer[]        arr   = new Integer[]{5, 7, 3, 1, 6734, 32, 5, 47, 32};
+        MaxHeap<Integer> heap3 = new MaxHeap<>(arr);
+        System.out.println(heap3);
+
     }
 
 }

@@ -62,7 +62,7 @@ public class ArrayList<E> implements Structure<E> {
      * @param index
      * @param value
      */
-    private void addByIndex(int index, E value) {
+    public void addByIndex(int index, E value) {
         for (int i = size; i > index; i--) {
             data[i] = data[i - 1];
         }
