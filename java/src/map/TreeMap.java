@@ -1,12 +1,18 @@
 package map;
 
+import queue.QueueLinked;
+
+import java.util.Iterator;
+import java.util.Spliterator;
+import java.util.function.Consumer;
+
 /**
  * @author joy
  * @date 2019/09/12 15:20
  */
-public class TreeMap<K extends Comparable<K>, V> implements Map<K, V> {
+public class TreeMap<K extends Comparable<K>, V> implements Map<K, V>, Iterator<K>, Iterable {
 
-    private class Node {
+    public class Node {
         private K    key;
         private V    value;
         private Node left;
@@ -15,6 +21,14 @@ public class TreeMap<K extends Comparable<K>, V> implements Map<K, V> {
         private Node(K key, V value) {
             this.key = key;
             this.value = value;
+        }
+
+        public K getKey() {
+            return key;
+        }
+
+        public V getValue() {
+            return value;
         }
     }
 
@@ -182,6 +196,42 @@ public class TreeMap<K extends Comparable<K>, V> implements Map<K, V> {
     }
 
 
+    // 游标
+    private QueueLinked<Node> queueLinked = new QueueLinked<>();
+    private boolean start = true;
+
+    @Override
+    public boolean hasNext() {
+        if (start) {
+            if (size == 0) {
+                return false;
+            }
+            queueLinked.enqueue(root);
+            start = false;
+            return true;
+        }
+        return queueLinked.getSize() != 0;
+    }
+
+    @Override
+    public K next() {
+        Node node = queueLinked.dequeue();
+        if (node.left != null) {
+            queueLinked.enqueue(node.left);
+        }
+        if (node.right != null) {
+            queueLinked.enqueue(node.right);
+        }
+        return node.key;
+    }
+
+    @Override
+    public Iterator iterator() {
+
+        return null;
+    }
+
+
     public static void main(String[] args) {
         TreeMap<Integer, String> tree = new TreeMap<>();
         tree.put(2, "8831q64");
@@ -190,9 +240,12 @@ public class TreeMap<K extends Comparable<K>, V> implements Map<K, V> {
         tree.put(13, "asd");
         tree.put(1, "88fg64");
 
-        tree.remove(2);
-        tree.remove(1);
+//        tree.remove(2);
+//        tree.remove(1);
         System.out.println(tree);
+        while (tree.hasNext()) {
+            System.out.println(tree.get(tree.next()));
+        }
     }
 }
 
