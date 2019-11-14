@@ -18,10 +18,6 @@ public class SegmentTree<E> {
         buildTree(0, 0, data.length - 1);
     }
 
-    public void setAlgorithm(Algorithm<E> algorithm) {
-        this.algorithm = algorithm;
-    }
-
     /**
      * 创建线段树
      *
@@ -54,7 +50,6 @@ public class SegmentTree<E> {
         return query(0, 0, getSize() - 1, l, r);
     }
 
-
     private E query(int index, int l, int r, int queryLeft, int queryRight) {
         if (l == queryLeft && r == queryRight) {
             return tree[index];
@@ -79,6 +74,34 @@ public class SegmentTree<E> {
 
     }
 
+    public void set(int index, E e) {
+        if (index < 0 || index >= getSize()) {
+            throw new IllegalArgumentException("数组下标越界");
+        }
+        data[index] = e;
+        set(0, 0, data.length - 1, index, e);
+    }
+
+    private void set(int index, int l, int r, int target, E e) {
+        if (l == r) {
+            tree[index] = e;
+            return;
+        }
+
+        int mid        = l + (r - l) / 2;
+        int leftChild  = getLeft(index);
+        int rightChild = getRight(index);
+
+        // 找右边
+        if (target > mid) {
+            set(rightChild, mid + 1, r, target, e);
+        } else {
+            // 找左边
+            set(leftChild, l, mid, target, e);
+        }
+
+        tree[index] = algorithm.operation(tree[leftChild], tree[rightChild]);
+    }
 
     public int getSize() {
         return data.length;
@@ -102,7 +125,7 @@ public class SegmentTree<E> {
             ARR[i] = i;
         }
         SegmentTree<Integer> t = new SegmentTree<>(ARR, (a, b) -> a + b);
-        int a = t.query(4, 7);
+        int                  a = t.query(4, 7);
         System.out.println(a);
         System.out.println(t);
     }
