@@ -10,7 +10,7 @@ import java.util.function.Consumer;
  * @author joy
  * @date 2019/09/12 15:20
  */
-public class TreeMap<K extends Comparable<K>, V> implements Map<K, V>, Iterator<K>, Iterable {
+public class TreeMap<K extends Comparable<K>, V> implements Map<K, V>, Iterator<K> {
 
     public class Node {
         private K    key;
@@ -89,6 +89,7 @@ public class TreeMap<K extends Comparable<K>, V> implements Map<K, V>, Iterator<
             if (node.left != null && node.right != null) {
                 Node temp = max(node.left);
                 node.key = temp.key;
+                node.value = temp.value;
                 node.left = remove(node.left, temp.key);
             } else {
                 node = node.left != null ? node.left : node.right;
@@ -225,12 +226,6 @@ public class TreeMap<K extends Comparable<K>, V> implements Map<K, V>, Iterator<
         return node.key;
     }
 
-    @Override
-    public Iterator iterator() {
-
-        return null;
-    }
-
 
     public static void main(String[] args) {
         TreeMap<Integer, String> tree = new TreeMap<>();
@@ -240,8 +235,8 @@ public class TreeMap<K extends Comparable<K>, V> implements Map<K, V>, Iterator<
         tree.put(13, "asd");
         tree.put(1, "88fg64");
 
-//        tree.remove(2);
-//        tree.remove(1);
+        tree.remove(2);
+        tree.remove(1);
         System.out.println(tree);
         while (tree.hasNext()) {
             System.out.println(tree.get(tree.next()));

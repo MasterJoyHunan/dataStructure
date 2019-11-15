@@ -1,19 +1,16 @@
 package unionfind;
 
-public class UnionFind1 implements UnionFind{
+public class UnionFind1 implements UnionFind {
 
     private int[] data;
 
-    public UnionFind1(int[] data) {
-        this.data = data.clone();
+    public UnionFind1(int size) {
+        data = new int[size];
+        for (int i = 0; i < size; i++) {
+            data[i] = i;
+        }
     }
 
-
-    /**
-     *
-     * @param a
-     * @param b
-     */
     @Override
     public void union(int a, int b) {
         int aBelong = find(a);
@@ -32,6 +29,11 @@ public class UnionFind1 implements UnionFind{
     @Override
     public boolean find(int a, int b) {
         return find(a) == find(b);
+    }
+
+    @Override
+    public int getSize() {
+        return data.length;
     }
 
 

@@ -18,4 +18,7 @@ public interface UnionFind {
      * @return
      */
     boolean find(int a, int b);
+
+
+    int getSize();
 }
