@@ -1,8 +1,5 @@
 package base;
-
-import map.Map;
-
-public class AVLTree<K extends Comparable<K>, V> implements Map<K, V> {
+public class AVLTree<K extends Comparable<K>, V> {
 
     private class Node {
         public K key;
@@ -26,7 +23,6 @@ public class AVLTree<K extends Comparable<K>, V> implements Map<K, V> {
      * @param key
      * @param value
      */
-    @Override
     public void put(K key, V value) {
         root = put(key, value, root);
     }
@@ -78,7 +74,6 @@ public class AVLTree<K extends Comparable<K>, V> implements Map<K, V> {
      * @param data
      * @return
      */
-    @Override
     public V remove(K data) {
         V v = get(data);
         if (v == null) {
@@ -149,7 +144,6 @@ public class AVLTree<K extends Comparable<K>, V> implements Map<K, V> {
      * @param key
      * @return
      */
-    @Override
     public V get(K key) {
         Node node = get(key, root);
         if (node == null) {
@@ -177,9 +171,8 @@ public class AVLTree<K extends Comparable<K>, V> implements Map<K, V> {
      * @param key
      * @return
      */
-    @Override
     public boolean contains(K key) {
-        return false;
+        return get(key) != null;
     }
 
     /**
@@ -187,7 +180,6 @@ public class AVLTree<K extends Comparable<K>, V> implements Map<K, V> {
      *
      * @return
      */
-    @Override
     public boolean isEmpty() {
         return size == 0;
     }
@@ -197,7 +189,6 @@ public class AVLTree<K extends Comparable<K>, V> implements Map<K, V> {
      *
      * @return
      */
-    @Override
     public int getSize() {
         return size;
     }
@@ -225,7 +216,12 @@ public class AVLTree<K extends Comparable<K>, V> implements Map<K, V> {
         return getHeight(node.left) - getHeight(node.right);
     }
 
-
+    /**
+     * 获取最大节点
+     *
+     * @param node
+     * @return
+     */
     private Node max(Node node) {
         if (node.right != null) {
             return max(node.right);
@@ -234,6 +230,12 @@ public class AVLTree<K extends Comparable<K>, V> implements Map<K, V> {
     }
 
 
+    /**
+     * 获取最小节点
+     *
+     * @param node
+     * @return
+     */
     private Node min(Node node) {
         if (node.left != null) {
             return min(node.left);
@@ -241,6 +243,12 @@ public class AVLTree<K extends Comparable<K>, V> implements Map<K, V> {
         return node;
     }
 
+    /**
+     * LL 旋转
+     *
+     * @param node
+     * @return
+     */
     private Node LL_Rotate(Node node) {
         Node newTree = node.left;
         node.left = newTree.right;
@@ -274,22 +282,4 @@ public class AVLTree<K extends Comparable<K>, V> implements Map<K, V> {
         return LL_Rotate(node);
     }
 
-    public static void main(String[] args) {
-        AVLTree<Integer, String> tree = new AVLTree<>();
-        tree.put(1, "a");
-        tree.put(2, "b");
-        tree.put(3, "c");
-        tree.put(4, "d");
-        tree.put(5, "e");
-        tree.put(6, "f");
-        tree.put(7, "g");
-
-        System.out.println();
-
-        tree.remove(4);
-        tree.remove(5);
-        tree.remove(6);
-        tree.remove(7);
-        System.out.println();
-    }
 }
