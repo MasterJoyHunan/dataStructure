@@ -75,7 +75,7 @@ public class TwoThereTree<K extends Comparable<K>, V> {
                     return;
                 }
                 put(node.left, key, value);
-            } else if (key.compareTo(node.leftKey) > 0 && key.compareTo(node.rightKey) < 0){
+            } else if (key.compareTo(node.leftKey) > 0 && key.compareTo(node.rightKey) < 0) {
                 if (node.mid == null) {
 
                 }
@@ -85,6 +85,52 @@ public class TwoThereTree<K extends Comparable<K>, V> {
             } else if (key.compareTo(node.rightKey) == 0) {
                 node.rightValue = value;
             }
+        }
+    }
+
+
+    private void merge(Node node, K key, V value) {
+        // 二节点的情况
+        if (!node.isTwoNode) {
+            if (key.compareTo(node.leftKey) > 0) {
+                node.rightKey = key;
+                node.rightValue = value;
+                node.isTwoNode = true;
+            } else if (key.compareTo(node.leftKey) < 0) {
+                node.rightKey = node.leftKey;
+                node.rightValue = node.leftValue;
+                node.leftKey = key;
+                node.leftValue = value;
+                node.isTwoNode = true;
+            } else {
+                node.leftValue = value;
+            }
+        } else {
+            // 3节点情况 需要重排
+            if (key.compareTo(node.leftKey) == 0) {
+                node.leftValue = value;
+                return;
+            } else if (key.compareTo(node.rightKey) == 0) {
+                node.rightValue = value;
+                return;
+            }
+            K tempKey;
+            V tempValue;
+            if (key.compareTo(node.leftKey) < 0 ) {
+                tempKey = node.leftKey;
+                tempValue = node.leftValue;
+                node.leftKey = key;
+                node.leftValue = value;
+            } else if (key.compareTo(node.leftKey) > 0 && key.compareTo(node.rightKey) < 0) {
+                tempKey = key;
+                tempValue = value;
+            } else {
+                tempKey = node.rightKey;
+                tempValue = node.rightValue;
+                node.rightKey = key;
+                node.rightValue = value;
+            }
+            merge(node.parent, tempKey, tempValue);
         }
     }
 }
