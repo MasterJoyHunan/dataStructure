@@ -1,6 +1,8 @@
 package tree;
 
 
+import java.util.Random;
+
 /**
  * 红黑树(左倾红黑树)
  */
@@ -38,6 +40,7 @@ public class RBTree<K extends Comparable<K>, V> {
 
     private Node put(K key, V value, Node node) {
         if (node == null) {
+            size++;
             return new Node(key, value);
         }
         if (key.compareTo(node.key) > 0) {
@@ -79,7 +82,7 @@ public class RBTree<K extends Comparable<K>, V> {
         temp.left = node;
         temp.color = node.color;
         node.color = RED;
-        return node;
+        return temp;
     }
 
 
@@ -96,7 +99,7 @@ public class RBTree<K extends Comparable<K>, V> {
         // 交换颜色
         temp.color = node.color;
         node.color = RED;
-        return node;
+        return temp;
     }
 
 
@@ -130,6 +133,20 @@ public class RBTree<K extends Comparable<K>, V> {
             return null;
         }
         return node.right;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public static void main(String[] args) {
+        RBTree<Integer, Integer> rb = new RBTree<>();
+        Random r = new Random();
+        long startTime = System.nanoTime();
+        for (int i = 0; i < 16; i++) {
+            rb.put(r.nextInt(Integer.MAX_VALUE), null);
+        }
+        System.out.println(System.nanoTime() - startTime );
     }
 
 }
