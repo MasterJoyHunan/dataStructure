@@ -1,8 +1,5 @@
 package tree;
 
-
-import java.util.Random;
-
 /**
  * 红黑树(左倾红黑树)
  */
@@ -25,6 +22,23 @@ public class RBTree<K extends Comparable<K>, V> {
             this.key = key;
             this.value = value;
         }
+    }
+
+
+    public V get(K key) {
+        return get(key, root);
+    }
+
+    public V get(K key, Node node) {
+        if (node == null) {
+            return null;
+        }
+        if (key.compareTo(node.key) > 0) {
+            return get(key, node.right);
+        } else if (key.compareTo(node.key) < 0) {
+            return get(key, node.left);
+        }
+        return node.value;
     }
 
     /**
@@ -139,14 +153,20 @@ public class RBTree<K extends Comparable<K>, V> {
         return size;
     }
 
+
+    public boolean containers(K key) {
+
+        return get(key) != null;
+    }
+
     public static void main(String[] args) {
         RBTree<Integer, Integer> rb = new RBTree<>();
-        Random r = new Random();
+//        Random r = new Random();
         long startTime = System.nanoTime();
-        for (int i = 0; i < 16; i++) {
-            rb.put(r.nextInt(Integer.MAX_VALUE), null);
+        for (int i = 1; i <= 7; i++) {
+            rb.put(i, null);
         }
-        System.out.println(System.nanoTime() - startTime );
+        System.out.println(System.nanoTime() - startTime);
     }
 
 }
