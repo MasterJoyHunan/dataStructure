@@ -39,7 +39,7 @@ public class MaxHeap<E extends Comparable<E>> {
     }
 
     /**
-     * 获取根节点
+     * 获取根节点（最大的节点）
      *
      * @return
      */
@@ -81,7 +81,7 @@ public class MaxHeap<E extends Comparable<E>> {
 
 
     /**
-     * 向堆中添加元素
+     * 向堆中添加元素，添加完全二叉树的最后的位置，与其父节点对比，如果父节点比较大，则交换两个节点的值，继续往上比较
      *
      * @param e
      */
